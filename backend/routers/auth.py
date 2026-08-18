@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel
 from jose import jwt, JWTError
-
+import os
 from database import supabase
 from models.schemas import UserSignup, UserLogin
 
@@ -127,9 +127,9 @@ async def forgot_password(data: ForgotPassword):
 
     # Create reset link
     reset_link = (
-        f"http://localhost:3000/reset-password"
-        f"?token={reset_token}"
-    )
+    f"{os.getenv('FRONTEND_URL')}/reset-password"
+    f"?token={reset_token}"
+)
 
     # Send reset link through email
     await send_reset_email(
